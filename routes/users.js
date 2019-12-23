@@ -1,9 +1,10 @@
-var express = require('express');
+var express = require("express");
+const GetUser = require("../services/userBusinessLogic");
 var router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+/* GET user listing. */
+router.get("/", function(req, res) {
+  res.send(GetUser(req));
 });
 
 module.exports = router;
