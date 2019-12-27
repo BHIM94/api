@@ -1,44 +1,27 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var logger = require("morgan");
+const express = require("express");
+const config = require("config");
 const mongoose = require("mongoose");
+const userRouter = require("./routes/user");
+const app = express();
 
-var usersRouter = require("./routes/users");
+//Read Config Values From the Config files
+const PORT = config.get("System.Port");
+const databaseServer = config.get("DBConfig.ConnectionString");
+const database = config.get("DBConfig.Database");
+const connectionString = `${databaseServer}/${database}`;
 
-var app = express();
+mongoose
+  .connect(connectionString, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => {
+    console.log("Connected To the Database...");
+  })
+  .catch(err => console.log(err));
 
-app.use(logger("dev"));
 app.use(express.json());
-
-app.use("/api/user", usersRouter);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
-});
-
-const PORT = 3000;
+app.use("/api/user", userRouter);
 app.listen(PORT, () => {
-  console.log("Listening On Port 3000....");
+  console.log(`Listening to Port ${PORT}`);
 });
-
-//Connect To the database
-//Move The Connection String to a DEV Config file
-mongoose.connect("mongodb://localhost:27017/playground", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
-
-module.exports = app;

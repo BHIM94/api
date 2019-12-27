@@ -1,0 +1,10 @@
+{
+  "DBConfig": {
+    "ConnectionString": "mongodb+srv://admin:eVPlRXRlMuJ3fbKY@cluster0-ia6ux.azure.mongodb.net",
+    "Database": "TestDatabase"
+  },
+  "System": {
+    "Environment": "Development",
+    "Port": 3000
+  }
+}
