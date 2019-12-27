@@ -17,6 +17,8 @@ mongoConnect(connectionString);
 
 app.user(morgan("dev"));
 app.use(express.json());
+
+//Bind The Incoming Http Requests to the Respective Routes
 app.use("/api/user", userRouter);
 app.listen(PORT, () => {
   console.log(`Listening to Port ${PORT}....`);

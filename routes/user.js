@@ -29,7 +29,6 @@ router.get("/:_id", async function(req, res) {
 });
 //POST API for saving Users
 router.post("/", async function(req, res) {
-  if (!req.body) res.status(400).send("Post Body is Incorrect");
   try {
     await validatePayloadSchema(req.body);
     const response = await SaveUser(req.body);
