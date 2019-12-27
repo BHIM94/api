@@ -15,7 +15,7 @@ const connectionString = `${databaseServer}/${database}`;
 //Connect To the Database
 mongoConnect(connectionString);
 
-app.user(morgan("dev"));
+app.use(morgan("dev"));
 app.use(express.json());
 
 //Bind The Incoming Http Requests to the Respective Routes

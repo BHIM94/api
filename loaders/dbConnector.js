@@ -6,7 +6,7 @@ async function ConnectToMongoDb(connectionString) {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
-    console.log("Connected To MongoDB");
+    console.log("Connected To MongoDB....");
   } catch (err) {
     console.log(err);
   }
