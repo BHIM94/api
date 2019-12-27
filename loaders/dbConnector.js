@@ -1,14 +1,18 @@
 const mongoose = require("mongoose");
 
-async function mongoConnect(connectionString) {
+async function ConnectToMongoDb(connectionString) {
   try {
-    await mongoose.connect(ConnectionString, {
+    await mongoose.connect(connectionString, {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
+    console.log("Connected To MongoDB");
   } catch (err) {
     console.log(err);
   }
   return mongoose;
 }
-module.export = { mongoConnect };
+async function mongoConnect(connectionString) {
+  await ConnectToMongoDb(connectionString);
+}
+module.exports = { mongoConnect };

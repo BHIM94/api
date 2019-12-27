@@ -4,6 +4,7 @@ const {
   GetUsers,
   SaveUser
 } = require("../services/userBusinessLogic");
+const { validatePayloadSchema } = require("../models/UserModel");
 var router = express.Router();
 
 /* GET All Users */
@@ -30,6 +31,7 @@ router.get("/:_id", async function(req, res) {
 router.post("/", async function(req, res) {
   if (!req.body) res.status(400).send("Post Body is Incorrect");
   try {
+    await validatePayloadSchema(req.body);
     const response = await SaveUser(req.body);
     res.send(response);
   } catch (err) {
