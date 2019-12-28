@@ -5,6 +5,7 @@
   },
   "System": {
     "Environment": "Development",
-    "Port": 3000
+    "Port": 3000,
+    "Api_Secret_Key": "API_Secret"
   }
 }

@@ -1,22 +1,29 @@
 const mongoose = require("mongoose");
 const Joi = require("@hapi/joi");
+const jwt = require("jsonwebtoken");
+const config = require("config");
 
-const User = mongoose.model(
-  "UserDetails",
-  new mongoose.Schema(
-    {
-      Name: String,
-      Email: String,
-      Phone: String,
-      CreatedAt: { type: Date, default: Date.now() },
-      CreatedBy: String
-    },
-    { collection: "UserDetails" }
-  )
+const userMongooseSchema = new mongoose.Schema(
+  {
+    Name: String,
+    Email: String,
+    Password: String,
+    Phone: String,
+    CreatedAt: { type: Date, default: Date.now() },
+    CreatedBy: String
+  },
+  { collection: "UserDetails" }
 );
+userMongooseSchema.methods.generateJWTToken = function() {
+  const token = jwt.sign(
+    { Name: this.Name, Phone: this.phone, Email: this.Email },
+    config.get("System.Api_Secret_Key")
+  );
+  return token;
+};
+const User = mongoose.model("UserDetails", userMongooseSchema);
 const userSchema = Joi.object({
   Name: Joi.string()
-    .alphanum()
     .min(3)
     .max(30)
     .required(),
@@ -24,6 +31,7 @@ const userSchema = Joi.object({
     .min(6)
     .max(12)
     .required(),
+  Password: Joi.string(),
 
   Email: Joi.string().email({
     minDomainSegments: 2,
