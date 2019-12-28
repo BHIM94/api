@@ -10,9 +10,9 @@ async function GetUsers() {
     throw err;
   }
 }
-async function GetUser(_id) {
+async function GetUser(userDetails) {
   try {
-    const user = await User.findById(_id);
+    const user = await User.find({ Email: userDetails.Email });
     return user;
   } catch (err) {
     throw err;

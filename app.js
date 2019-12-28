@@ -19,13 +19,11 @@ var swaggerDefinition = {
 
   components: {
     securitySchemes: {
-      bearerAuth: {
+      ApiKeyAuth: {
         type: "apiKey",
-        name: "Authorization",
-        scheme: "bearer",
+        name: "x-jwt-token",
         in: "header",
-        description:
-          "Please enter into field the word 'Bearer' following by space and JWT"
+        description: "Please enter into field the JWT"
       }
     }
   },
@@ -36,7 +34,7 @@ var swaggerDefinition = {
   },
   security: [
     {
-      bearerAuth: []
+      ApiKeyAuth: []
     }
   ],
   host: "localhost:3000",

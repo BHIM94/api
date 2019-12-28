@@ -10,6 +10,60 @@ const { validatePayloadSchema } = require("../models/UserModel");
 var router = express.Router();
 
 /**
+ * openapi: 3.0.0
+ * @swagger
+ *   definitions:
+ *   User:
+ *     properties:
+ *       Name:
+ *         type: string
+ *       Email:
+ *         type: string
+ *       Password:
+ *         type: integer
+ *       Phone:
+ *         type: string
+ *       CreatedAt:
+ *         type:string
+ *       CreatedBy:
+ *         type:string
+ * /api/user/all:
+ *   get:
+ *     tags:
+ *       - Users
+ *     description: Returns all users
+ *     produces:
+ *       - application/json
+ *     components:
+ *        securitySchemes:
+ *          ApiKeyAuth:
+ *            type: apiKey
+ *            in:   header       # can be "header", "query" or "cookie"
+ *            name: x-jwt-token  # name of the header, query parameter or cookie
+ *            description: Please enter into field the JWT
+ *     securityDefinitions:
+ *         auth:
+ *            type:bearer
+ *     security:
+ *       - ApiKeyAuth : []
+ *     responses:
+ *       200:
+ *         description: An array of users
+ *         schema:
+ *           $ref: '#/definitions/User'
+ */
+/* GET All Users */
+router.get("/all", auth, async function(req, res) {
+  try {
+    const users = await GetUsers();
+    res.send(users);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err.message);
+  }
+});
+/**
+ * openapi: 3.0.0
  * @swagger
  *   definitions:
  *   User:
@@ -30,31 +84,31 @@ var router = express.Router();
  *   get:
  *     tags:
  *       - Users
- *     description: Returns all users
+ *     description: Returns the current user
  *     produces:
  *       - application/json
+ *     components:
+ *        securitySchemes:
+ *          ApiKeyAuth:
+ *            type: apiKey
+ *            in:   header       # can be "header", "query" or "cookie"
+ *            name: x-jwt-token  # name of the header, query parameter or cookie
+ *            description: Please enter into field the JWT
+ *     securityDefinitions:
+ *         auth:
+ *            type:bearer
  *     security:
- *       -bearerAuth : []
+ *       - ApiKeyAuth : []
  *     responses:
  *       200:
  *         description: An array of users
  *         schema:
  *           $ref: '#/definitions/User'
  */
-/* GET All Users */
+/*Get a specific User by email*/
 router.get("/", auth, async function(req, res) {
   try {
-    const users = await GetUsers();
-    res.send(users);
-  } catch (err) {
-    console.log(err);
-    res.status(500).send(err.message);
-  }
-});
-/*Get a specific User by _id*/
-router.get("/:_id", auth, async function(req, res) {
-  try {
-    const user = await GetUser(req.params._id);
+    const user = await GetUser(req.user);
     res.send(user);
   } catch (err) {
     console.log(err);
