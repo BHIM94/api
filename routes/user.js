@@ -9,6 +9,38 @@ const {
 const { validatePayloadSchema } = require("../models/UserModel");
 var router = express.Router();
 
+/**
+ * @swagger
+ *   definitions:
+ *   User:
+ *     properties:
+ *       Name:
+ *         type: string
+ *       Email:
+ *         type: string
+ *       Password:
+ *         type: integer
+ *       Phone:
+ *         type: string
+ *       CreatedAt:
+ *         type:string
+ *       CreatedBy:
+ *         type:string
+ * /api/user:
+ *   get:
+ *     tags:
+ *       - Users
+ *     description: Returns all users
+ *     produces:
+ *       - application/json
+ *     security:
+ *       -bearerAuth : []
+ *     responses:
+ *       200:
+ *         description: An array of users
+ *         schema:
+ *           $ref: '#/definitions/User'
+ */
 /* GET All Users */
 router.get("/", auth, async function(req, res) {
   try {
